@@ -1,0 +1,21 @@
+# Ambiente virtual
+venv/
+__pycache__/
+*.pyc
+
+# Arquivos de configuração de IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de sistema
+.DS_Store
+
+# Binários e arquivos compilados
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a

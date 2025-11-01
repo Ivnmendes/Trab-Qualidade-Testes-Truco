@@ -1,0 +1,19 @@
+Relatório do trabalho desenvolvido de CBR aplicado ao jogo truco
+
+O jogo anteriormente disponibilizado contava com limitações na lógica de raciocínio baseado em casos e uma biblioteca diferente da requisitada na disciplina, portanto fizemos alterações mais relevantes em:
+
+main.py: Nada da lógica anterior desse arquivo foi reaproveitada, foi inteiramente reformulado para que o fluxo do jogo atualizasse a base de conhecimento do bot conforme progressão das mãos
+
+bot.py: Pouca coisa foi reaproveitada em decorrência de trocarmos a lógica principal do jogo. Esse arquivo ficou responsável por agregar todas as funções de decisão do bot ao decorrer do jogo, sendo elas: responder a um chamado do jogador humano, propor jogadas (envido, truco, flor, etc) e jogar cartas. Tudo foi centralizado na função "avaliarJogada", para que ficasse mais semelhante a como um jogador humano jogaria truco online. Essa função retorna a próxima ação do bot, qualquer que ela seja.
+Nesse arquivo, outra função importante para o funcionamento do jogo é a "atualizarRegistro", que serve para atualizar a memória interna do bot para ele se situar durante o jogo.
+A busca por casos similares e lógica para decisão majoritária estão contidas em  "_decisaoMajoritariaPorRodada", que baseado em decisão pela maioria define a jogada a ser feita.
+
+CBR.py: nada desse arquivo foi reaproveitado em decorrência da mudança total de biblioteca. A principal função é a "buscarSimilares", que recebe um pedaço de registro e busca casos semelhantes com similaridade linear.
+
+Demais arquivos permanecem praticamente inalterados ou tem alterações inexpressivas, que não valeriam ser comentadas aqui.
+
+Recomendações para trabalhos futuros:
+- Caso seja de interesse da disciplina mudar o mecanismo de pensamento do bot para outra técnica, pode ser feito na "avaliarJogada". Caso os tipos de retornos sejam os mesmos, pouca coisa ou nada será necessário de alterar na main.
+- A lógica atual do main não contempla o truco como estritamente definido nas regras. Em decorrência de falta de tempo, a versão do jogo é adaptada para ter uma versão mínima viável. Por exemplo: não é permitido que chame-se envido fora da primeira rodada segundo as regras, mas o main atual não trata isso e outros casos mais específicos.
+- Funções de escalonamento e distribuição de pontos podem ser polidas e melhoradas. Em decorrência dos prazos, optamos por não ter o código mais limpo possível, mas funcional.
+- A base de dados é um impeditivo grande para um bot competitivo. Muitos dados inconsistentes ou absurdos levam o bot a tomar decisões irreais durante a partida (que podem ser visualizadas removendo o comentário dos prints que mostram o que baseou a decisão). Poderia-se focar os trabalhos posteriores na coleta de novas mãos jogadas.
