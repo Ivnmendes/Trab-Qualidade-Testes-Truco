@@ -202,6 +202,28 @@ def test_mostrar_opcoes_flor_indisponivel(jogador, mocker, capsys):
     captured = capsys.readouterr()
     assert '[5] Flor' not in captured.out
 
+def test_mostrar_opcoes_nao_mostra_flor_duas_vezes(jogador, mocker, capsys):
+    """
+    Testa para verificar se o jogo permite pedir Flor mais de uma vez
+    """
+    # 1. Configurar uma mão com flor
+    mock_carta_1 = mocker.MagicMock(retornarNaipe=lambda: 'OUROS')
+    mock_carta_2 = mocker.MagicMock(retornarNaipe=lambda: 'OUROS')
+    mock_carta_3 = mocker.MagicMock(retornarNaipe=lambda: 'OUROS')
+    jogador.mao = [mock_carta_1, mock_carta_2, mock_carta_3]
+
+    # 2. Chamar a primeira vez (define jogador.flor = True)
+    jogador.mostrarOpcoes()
+    captured1 = capsys.readouterr()
+    assert '[5] Flor' in captured1.out
+
+    # 3. Chamar a segunda vez
+    jogador.mostrarOpcoes()
+    captured2 = capsys.readouterr()
+
+    # 4. A opção não deve aparecer na segunda vez
+    assert '[5] Flor' not in captured2.out
+
 def test_mostrar_opcoes_envido(jogador, mocker, capsys):
     """
     Testa se mostrarOpcoes exibe as opções de Envido quando a mão tem 3 cartas.

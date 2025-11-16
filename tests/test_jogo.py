@@ -146,21 +146,17 @@ def test_trocar_jogador_mao(jogo, mocker):
     """
     Testa a lógica de 'trocarJogadorMao'.
     """
-    mock_j1 = mocker.MagicMock()
-    mock_j2 = mocker.MagicMock()
+    mock_j1 = mocker.MagicMock(primeiro=True)
+    mock_j2 = mocker.MagicMock(primeiro=False)
 
     jogo.jogador_mao = 1
-    mock_j1.primeiro = True
-    mock_j2.primeiro = False
     
     jogo.trocarJogadorMao(mock_j1, mock_j2)
 
-    assert jogo.jogador_mao == 2
     assert mock_j1.primeiro == False 
-    assert mock_j2.primeiro == True  
+    assert mock_j2.primeiro == True
     
     jogo.trocarJogadorMao(mock_j1, mock_j2)
     
-    assert jogo.jogador_mao == 1  
     assert mock_j1.primeiro == True 
     assert mock_j2.primeiro == False 

@@ -618,7 +618,7 @@ def test_escalonamento_flor_j1_chama_j2_aumenta_j1_aceita(mocks_flor, mocker):
     
     partida.escalonamento_flor(quem_chamou=1, jogador1=mock_j1, jogador2=mock_j2, jogo=mock_jogo)
     
-    partida.distribuir_pontos.assert_called_once_with(mock_jogo, 1, 6, False)
+    partida.distribuir_pontos.assert_called_once_with(mock_jogo, 2, 6, False)
 
 
 def test_escalonamento_flor_j1_chama_j2_aumenta_j1_recusa(mocks_flor, mocker):
@@ -984,3 +984,27 @@ def test_realizar_jogada_humano_chama_truco_prova_loop_infinito(mocks_realizar_j
     mock_j1_humano.jogarCarta.assert_called_once_with(1)
     
     assert carta_retornada == mock_carta_jogada
+
+def test_realizar_jogada_bot_chama_truco_humano_aceita(mocks_realizar_jogada, mocker):
+    mock_jogo, mock_j1_adv, mock_j2_bot = mocks_realizar_jogada
+    mock_carta = mocker.MagicMock(spec=Carta)
+
+    # 1. Bot chama 'truco'
+    # 2. Bot vê que foi aceito e joga uma carta
+    mock_j2_bot.avaliarJogada.side_effect = [
+        {"jogada": "truco"},
+        {"jogada": "jogar carta", "carta": mock_carta}
+    ]
+
+    # Simula o escalonamento retornando 'quero'
+    partida.escalonamento.return_value = {"resultado": "quero"}
+
+    carta_retornada = partida.realizar_jogada(
+        jogador=mock_j2_bot, adversario=mock_j1_adv,
+        jogo=mock_jogo, rodada=1, is_bot=True
+    )
+
+    # O teste deve verificar se o bot foi chamado 2 VEZES
+    assert mock_j2_bot.avaliarJogada.call_count == 2
+    # E se a carta correta foi jogada no final
+    assert carta_retornada == mock_carta

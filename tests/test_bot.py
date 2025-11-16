@@ -407,6 +407,35 @@ def test_avaliar_jogada_propoe_envido(mock_bot, mocker):
     # 3. Assert
     assert jogada == {'jogada': 'envido'}
 
+def test_avaliar_jogada_rodada_2_ignora_envido(mock_bot, mocker):
+    
+    bot, _, _ = mock_bot
+
+    # 1. Bot tem 30 pontos de envido e "quer" cantar
+    mocker.patch.object(bot, 'avaliarEnvido', return_value=True)
+
+    # 2. Mas já é a rodada 2
+    jogada = bot.avaliarJogada(rodada=2)
+
+    # 3. Bot não deve cantar envido, pois a lógica está dentro do 'if rodada == 1'
+    assert jogada['jogada'] != 'envido'
+
+def test_avaliar_jogada_nao_propoe_flor_se_ja_foi_cantada(mock_bot, mocker):
+
+    bot, _, _ = mock_bot
+
+    # 1. Bot tem flor
+    bot.flor = True
+
+    # 2. Mas o registro mostra que alguém (ex: humano '1') já cantou
+    mocker.patch.object(bot, '_obterRegistroUtil', return_value={'quemFlor': 1})
+
+    # 3. Executar
+    jogada = bot.avaliarJogada(rodada=1)
+
+    # 4. Bot não deve propor flor novamente
+    assert jogada['jogada'] != 'flor'
+
 def test_avaliar_jogada_responde_envido_nao_quero(mock_bot, mocker):
     """
     Testa avaliarJogada: Humano pediu envido, bot decide 'não quero'.
