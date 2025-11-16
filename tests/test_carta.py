@@ -163,14 +163,19 @@ def test_classificar_carta(dummy_carta):
     cartas = [carta_01, carta_02, carta_03]
     pontos, classificacao = dummy_carta.classificarCarta(cartas)
 
-    assert classificacao[0] == "1 de ESPADAS"
+    assert classificacao[0] == "Alta"
     assert pontos[0] == 52
 
-    assert classificacao[1] == "3 de OUROS"
+    assert classificacao[1] == "Media"
     assert pontos[1] == 24
 
-    assert classificacao[2] == "2 de COPAS"
+    assert classificacao[2] == "Baixa"
     assert pontos[2] == 16
+
+    cartas_2 = [carta_02, carta_03, carta_01]
+    pontos_2, classificacao_2 = dummy_carta.classificarCarta(cartas_2)
+    assert classificacao_2 == ['Media', 'Baixa', 'Alta']
+    assert pontos_2 == [24, 16, 52]
 
 def test_printar_carta_manilha(capsys):
     """
@@ -201,14 +206,14 @@ def test_retornar_numero_carta_manilha():
     Testa se o número da carta manilha é retornado corretamente.
     """
     carta = Carta(1, "ESPADAS")
-    assert carta.numero == 1
+    assert carta.retornarNumero() == 1
 
 def test_retornar_numero_carta_comum():
     """
     Testa se o número da carta comum é retornado corretamente.
     """
     carta = Carta(5, "COPAS")
-    assert carta.numero == 5
+    assert carta.retornarNumero() == 5
 
 def test_retornar_naipe_carta_manilha():
     """
