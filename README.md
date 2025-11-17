@@ -30,7 +30,7 @@ cd Trab-Qualidade-Testes-Truco
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-<TODO : adicionar comando para executar os testes>
+pytest
 ```
 
 Para rodar o jogo execute `python updated_main.py` dentro do ambiente virtual.
