@@ -180,6 +180,9 @@ def test_mostrar_opcoes_flor_disponivel(jogador, mocker, capsys):
 
     captured = capsys.readouterr()
     assert '[5] Flor' in captured.out
+    assert '[5] Envido' not in captured.out
+    assert '[6] Real Envido' not in captured.out
+    assert '[7] Falta Envido' not in captured.out
     assert jogador.flor is True
 
 def test_mostrar_opcoes_flor_indisponivel(jogador, mocker, capsys):
